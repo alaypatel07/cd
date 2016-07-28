@@ -12,8 +12,10 @@ from functools import reduce
 
 
 def get_key(element):
-    return element[0]
-
+    if len(element) >= 1:
+        return element[0]
+    else:
+        return ""
 
 def left_factor(non_terminal, production):
     grouped_data = groupby(production, get_key)
@@ -27,14 +29,16 @@ def left_factor(non_terminal, production):
 
     new_productions = {non_terminal: []}
 
+    count = 0
     for element in grouped_data_dict:
         if len(grouped_data_dict[element]) > 1:
-            productions = [i[1:] for i in grouped_data_dict[element] if len(i) > 1]
+            productions = [i[1:] for i in grouped_data_dict[element] if len(i) >= 1]
         else:
             productions = grouped_data_dict[element]
             new_productions[non_terminal].extend(productions)
             continue
-        new_non_terminal = non_terminal + "'"
+        count += 1
+        new_non_terminal = non_terminal + "'" * count
         new_productions[non_terminal].extend([element + new_non_terminal])
         new_productions.setdefault(new_non_terminal, productions)
     return new_productions
