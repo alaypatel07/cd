@@ -85,7 +85,6 @@ def get_input():
 if __name__ == '__main__':
     input_lines = get_input()
     productions = get_productions(lines=input_lines)
-    print(productions)
     try:
         left_factored_grammar = get_left_factored(productions)
         print("\n".join([key + "->" + "/".join(left_factored_grammar[key]) for key in left_factored_grammar.keys()]))
