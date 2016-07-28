@@ -17,6 +17,7 @@ def get_key(element):
     else:
         return ""
 
+
 def left_factor(non_terminal, production):
     grouped_data = groupby(production, get_key)
     grouped_data_dict = {}
@@ -86,11 +87,15 @@ def get_input():
     return input_lines
 
 
+def get_lines(grammar):
+    return "\n".join([key + "->" + "/".join(grammar[key]) for key in grammar.keys()])
+
+
 if __name__ == '__main__':
     input_lines = get_input()
     productions = get_productions(lines=input_lines)
     try:
         left_factored_grammar = get_left_factored(productions)
-        print("\n".join([key + "->" + "/".join(left_factored_grammar[key]) for key in left_factored_grammar.keys()]))
+        print(get_lines(left_factored_grammar))
     except RuntimeError as e:
         print(e)
