@@ -8,7 +8,7 @@
 # T->id
 
 from itertools import groupby
-from left_factoring import get_input, get_productions, get_key
+from left_factoring import get_input, get_productions, get_key, get_lines
 
 
 def left_factor_generator(productions):
@@ -35,4 +35,5 @@ if __name__ == '__main__':
     input_lines = get_input()
     productions = get_productions(input_lines)
     productions = {**productions, **get_left_factored(productions)}
-    print("\n".join([key + "->" + "/".join(productions[key]) for key in productions.keys()]))
+    print(get_lines(productions))
+    # print("\n".join([key + "->" + "/".join(productions[key]) for key in productions.keys()]))
