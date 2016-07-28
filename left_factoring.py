@@ -49,9 +49,14 @@ def get_left_factored(productions):
     while not reduce(lambda x, y: x and y, flags, True):
         for non_terminal in productions:
             new_productions = left_factor(non_terminal, productions[non_terminal])
+            for new_non_terminal in new_productions:
+                if new_non_terminal not in productions:
+                    flags.append(False)
+                    non_terminals.append(new_non_terminal)
+            productions = {**productions, **new_productions}
+
             if new_productions[non_terminal] == productions[non_terminal]:
                 flags[non_terminals.index(non_terminal)] = True
-            productions = {**productions, **new_productions}
 
     return productions
 
@@ -68,14 +73,19 @@ def get_productions(lines):
     return production
 
 
-if __name__ == '__main__':
+def get_input():
     input_lines = []
     i = input()
     while i != "exit":
         input_lines.append(i)
         i = input()
+    return input_lines
+
+
+if __name__ == '__main__':
+    input_lines = get_input()
     productions = get_productions(lines=input_lines)
-    # print(production)
+    print(productions)
     try:
         left_factored_grammar = get_left_factored(productions)
         print("\n".join([key + "->" + "/".join(left_factored_grammar[key]) for key in left_factored_grammar.keys()]))
